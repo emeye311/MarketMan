@@ -1,13 +1,13 @@
-const express = require('express');
-const path = require('path');
-const bodyParser = require('body-parser');
-const productRouter = require('./routes/product');
+const express = require("express");
+const path = require("path");
+const bodyParser = require("body-parser");
+const productRouter = require("./routes/product");
 
-/** 
+/**
  * App Variables--משתנים
  */
 //ופע של האקספר דרכו אני נגשת לכל הפונקציות של האקספרס
-const app = express()
+const app = express();
 //
 const port = 3000;
 
@@ -16,8 +16,8 @@ const port = 3000;
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug"); //שימוש במנוע פאג להרצת תצוגה מונעת מידע
 app.use(express.static(path.join(__dirname, "public"))); //מחזיר את הקובץ בלי שום שינוי
-app.use(bodyParser.urlencoded({ extended: false }));//לוקח את הבקשה וממיר 
-app.use(bodyParser.json());//לןקח בקשה וממיר לגסון
+app.use(bodyParser.urlencoded({ extended: false })); //לוקח את הבקשה וממיר
+app.use(bodyParser.json()); //לןקח בקשה וממיר לגסון
 app.use(productRouter);
 
 // const mongodb = require('mongodb');
@@ -59,8 +59,6 @@ app.use(productRouter);
 //     });
 //     var listProducts = productsCollaction.find().toArray();
 
-
-
 //     // productscollction.find({}).toArray((err,res)=>{
 
 //     //     if(err){
@@ -80,9 +78,7 @@ app.use(productRouter);
 //     dataBase.close();
 // });
 
-
 app.listen(port);
-
 
 // // function findAllFromDB(SuperDB) {
 // //     SuperDB.find().toArray((err, res) => {
@@ -93,5 +89,3 @@ app.listen(port);
 // //         console.log(res);
 // //     });
 // // }
-
-

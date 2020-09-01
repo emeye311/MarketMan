@@ -1,17 +1,12 @@
-// ./ : Same Folder
-// ../ : One Folder Up 
+const harta = () => {
+  try {
+    return 1;
+  } catch {
+    console.log("catch...");
+  } finally {
+    console.log("Finally!");
+  }
+};
 
-// // Destructuring:
-// const emeye = {
-//     name: 'Emeye',
-//     job: 'Software Develepoer at Facebook'
-// }
-
-// // const myName = emeye.name;
-// // const myJob = emeye.job;
-
-// const { name, job } = emeye;
-
-
-const { num, name } = require('./routes/product')
-console.log(`My name is ${name}`)
+const kaka = harta();
+console.log(kaka);

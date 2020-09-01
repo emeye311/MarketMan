@@ -1,49 +1,35 @@
-const mongodb = require('mongodb');
+const mongodb = require("mongodb");
 //נותן את האפשרות ליצור חיבור לדאטבאס במונגו
 const MongoClient = mongodb.MongoClient;
 //הנתיב
-const url = 'mongodb://localhost:27017';
-const db = 'SuperDB';
+const url = "mongodb://localhost:27017";
+const dbName = "SuperDB";
+
+// Marking a function as async means 2 things:
+// 1. Will return a Promise
+// 2. Can "await" other async (functions returning a Promise) functions
 
 const getAllProducts = async () => {
-    let products = [];
+  let client;
+  try {
+    client = await MongoClient.connect(url, { useUnifiedTopology: true });
+  } catch (error) {
+    console.log(error);
+    throw new Error("Could not connect to database");
+  }
 
-    MongoClient.connect(url, (err, client) => {
-        if (err) {
-            throw err;
-        }
+  try {
+    const db = client.db(dbName);
 
-        //יצירת דאט באס
-        const superDB = client.db(db, (err) => {
-            if (err) {
-                throw err;
-            }
-        });
+    const collection = db.collection("products");
 
-        //יצירת טבלה בדאט באס
-        let productsCollection = superDB.collection('products', (err) => {
-            if (err) {
-                throw err;
-            }
-        });
-
-        productsCollection.find().toArray()
-            .then((val) => {
-                return val ;
-            })
-            .catch((error) => {
-                console.log('Oy va avoy!');
-                throw error;
-            })
-            .finally(() => {
-                client.close();
-            });
-    });
-
-    return products;
-}
-
+    return await collection.find().toArray();
+  } catch (error) {
+    console.log(error);
+    throw new error("Could not fetch data from collection");
+  }
+};
 
 module.exports = {
-    getAllProducts
-}
+  getAllProducts,
+};

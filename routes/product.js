@@ -1,6 +1,8 @@
-var express = require('express');
-const { route } = require('./users');
+var express = require("express");
+const { route } = require("./users");
 var router = express.Router();
+
+const mongo = require("../mongo");
 
 /*
     CreateReadUpdateDelete (CRUD)
@@ -14,44 +16,16 @@ var router = express.Router();
         DELETE (Delete) /products/:{id}
 */
 
-// Client (GET http://localhost:3000/products) => 
-// mains.js (express.use(productsRouter)) => 
+// Client (GET http://localhost:3000/products) =>
+// mains.js (express.use(productsRouter)) =>
 // product.js (router.get('/products'))
 
-router.get('/products', (req, res) => {
-    MongoClient.connect(url, (err, client) => {
-        if (err) {
-            throw err;
-        }
+router.get("/products", async (req, res) => {
+  const products = await mongo.getAllProducts();
 
-        //יצירת דאט באס
-        const superDB = client.db('SuperDB', (err) => {
-            if (err) {
-                throw err;
-            }
-        });
-
-        //יצירת טבלה בדאט באס
-        let productsCollection = superDB.collection('products', (err) => {
-            if (err) {
-                throw err;
-            }
-        });
-
-        productsCollection.find().toArray()
-            .then((val) => {
-                res.render('allProducts', {
-                    products: val
-                })
-            })
-            .catch((error) => {
-                console.log('Oy va avoy!');
-                throw error;
-            })
-            .finally(() => {
-                client.close();
-            });
-    })
+  res.render("allProducts", {
+    products: products,
+  });
 });
 
 module.exports = router;
