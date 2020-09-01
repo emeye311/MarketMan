@@ -1,0 +1,10 @@
+extends layout
+
+block content
+ div Create New Product
+   div 
+    form(action="/create" method="post")
+      input(type="text" name="_id")
+      input(type="text" name="name")
+      input(type="text" name="price")
+      button(type='submit') Submit
